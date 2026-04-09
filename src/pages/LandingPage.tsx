@@ -1,25 +1,31 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Coffee, Leaf, Award } from 'lucide-react';
+import { ArrowRight, Coffee, Leaf, Award, Star, MapPin, Clock, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import heroCoffee from '@/assets/hero-coffee.jpg';
 import coffeeBeans from '@/assets/coffee-beans.jpg';
 import cafeInterior from '@/assets/cafe-interior.jpg';
-import { menuItems } from '@/lib/menu-data';
+import espressoImg from '@/assets/espresso.jpg';
+import cappuccinoImg from '@/assets/cappuccino.jpg';
+import icedCoffeeImg from '@/assets/iced-coffee.jpg';
+import croissantImg from '@/assets/croissant.jpg';
 
-function FadeInSection({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+function FadeIn({ children, className = '', delay = 0, direction = 'up' }: {
+  children: React.ReactNode; className?: string; delay?: number; direction?: 'up' | 'left' | 'right' | 'none';
+}) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const isInView = useInView(ref, { once: true, margin: '-60px' });
+  const initial = direction === 'up' ? { y: 50 } : direction === 'left' ? { x: -60 } : direction === 'right' ? { x: 60 } : {};
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
+      initial={{ opacity: 0, ...initial }}
+      animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >
       {children}
@@ -27,177 +33,361 @@ function FadeInSection({ children, className = '', delay = 0 }: { children: Reac
   );
 }
 
+/* ─────────────────── HERO ─────────────────── */
 function HeroSection() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <motion.div style={{ y, scale }} className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-hero" />
-        <div className="absolute inset-0 bg-background/60" />
-      </motion.div>
+    <section ref={ref} className="relative min-h-[110vh] flex items-center overflow-hidden bg-gradient-hero">
+      {/* Organic background blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] blob bg-accent/5 animate-drift" />
+        <div className="absolute bottom-20 -left-20 w-[350px] h-[350px] blob-2 bg-mocha/8 animate-drift" style={{ animationDelay: '4s' }} />
+        <div className="absolute top-1/2 right-1/4 w-[200px] h-[200px] blob-3 bg-accent/3 animate-drift" style={{ animationDelay: '8s' }} />
+      </div>
 
-      <motion.div style={{ opacity }} className="relative z-10 container mx-auto px-4 flex flex-col lg:flex-row items-center gap-12 pt-16">
-        <div className="flex-1 text-center lg:text-left">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-accent text-sm font-medium tracking-widest uppercase mb-4"
-          >
-            Premium Artisan Coffee
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-5xl md:text-7xl font-bold leading-tight mb-6"
-          >
-            Crafted with{' '}
-            <span className="text-gradient">Passion</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="text-muted-foreground text-lg max-w-md mx-auto lg:mx-0 mb-8"
-          >
-            Experience the finest single-origin beans, expertly roasted and brewed to perfection.
-          </motion.p>
+      <motion.div style={{ opacity: heroOpacity }} className="relative z-10 container mx-auto px-4 lg:px-8">
+        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-0 pt-20 lg:pt-0">
+          {/* Left: Text */}
+          <div className="flex-1 text-center lg:text-left lg:pr-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full glass text-xs font-medium tracking-widest uppercase text-accent"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+              Est. 2020 · Artisan Roasters
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+              className="text-5xl sm:text-6xl lg:text-8xl font-display font-bold leading-[0.95] mb-6"
+            >
+              Where Every
+              <br />
+              <span className="text-gradient-warm italic">Sip Matters</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.8 }}
+              className="text-muted-foreground text-lg lg:text-xl max-w-lg mx-auto lg:mx-0 mb-10 leading-relaxed font-light"
+            >
+              Single-origin beans, roasted in small batches, brewed with obsessive precision. This isn't just coffee — it's a ritual.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+            >
+              <Button variant="hero" size="lg" className="text-base px-8 py-6 rounded-full" asChild>
+                <Link to="/menu">
+                  Order Now <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
+              <Button variant="glass" size="lg" className="text-base px-8 py-6 rounded-full" asChild>
+                <Link to="/about">Our Story</Link>
+              </Button>
+            </motion.div>
+
+            {/* Social proof */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2 }}
+              className="mt-12 flex items-center gap-6 justify-center lg:justify-start"
+            >
+              <div className="flex -space-x-3">
+                {[1,2,3,4].map(i => (
+                  <div key={i} className="w-9 h-9 rounded-full bg-muted border-2 border-background flex items-center justify-center text-xs text-muted-foreground">
+                    {['AK','PS','RM','VG'][i-1]}
+                  </div>
+                ))}
+              </div>
+              <div>
+                <div className="flex items-center gap-0.5 mb-0.5">
+                  {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-accent text-accent" />)}
+                </div>
+                <p className="text-xs text-muted-foreground">Loved by <span className="text-foreground font-medium">2,400+</span> coffee lovers</p>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right: Coffee Image - Organic shape */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="flex gap-4 justify-center lg:justify-start"
+            style={{ scale: imageScale }}
+            className="flex-1 flex justify-center lg:justify-end relative"
           >
-            <Button variant="hero" size="lg" asChild>
-              <Link to="/menu">
-                Order Now <ArrowRight className="w-4 h-4 ml-1" />
-              </Link>
-            </Button>
-            <Button variant="glass" size="lg" asChild>
-              <Link to="/about">Our Story</Link>
-            </Button>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ delay: 0.6, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              className="relative"
+            >
+              {/* Glow behind cup */}
+              <div className="absolute inset-0 blur-[80px] bg-accent/20 blob animate-glow" />
+
+              <div className="relative animate-float">
+                <img
+                  src={heroCoffee}
+                  alt="Premium artisan latte"
+                  width={520}
+                  height={520}
+                  className="relative blob w-64 h-64 sm:w-80 sm:h-80 lg:w-[420px] lg:h-[420px] object-cover shadow-2xl shadow-background/50"
+                />
+                {/* Steam wisps */}
+                <div className="absolute -top-6 left-1/3 w-16 h-20 bg-foreground/3 rounded-full blur-lg steam-animation" />
+                <div className="absolute -top-4 left-1/2 w-12 h-16 bg-foreground/4 rounded-full blur-md steam-animation" style={{ animationDelay: '1s' }} />
+              </div>
+
+              {/* Floating badge */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.4 }}
+                className="absolute -right-4 top-1/4 glass-strong rounded-2xl px-4 py-3"
+              >
+                <p className="text-xs text-accent font-medium">100% Arabica</p>
+                <p className="text-[10px] text-muted-foreground">Single Origin</p>
+              </motion.div>
+
+              {/* Floating price tag */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.6 }}
+                className="absolute -left-4 bottom-1/4 glass-strong rounded-2xl px-4 py-3"
+              >
+                <p className="text-xs text-muted-foreground">Starting at</p>
+                <p className="text-lg font-bold text-accent">₹149</p>
+              </motion.div>
+            </motion.div>
           </motion.div>
         </div>
+      </motion.div>
 
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+      >
+        <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Scroll</p>
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 1, ease: 'easeOut' }}
-          className="flex-1 flex justify-center"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+          className="w-5 h-8 rounded-full border border-muted-foreground/30 flex items-start justify-center pt-1.5"
         >
-          <div className="relative">
-            <div className="absolute -inset-4 bg-accent/10 rounded-full blur-3xl" />
-            <img
-              src={heroCoffee}
-              alt="Premium artisan latte with beautiful foam art"
-              width={480}
-              height={480}
-              className="relative rounded-full shadow-2xl animate-float w-72 h-72 md:w-96 md:h-96 object-cover"
-            />
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 w-20 h-16 bg-foreground/5 rounded-full blur-xl steam-animation" />
-          </div>
+          <div className="w-1 h-1.5 rounded-full bg-accent" />
         </motion.div>
       </motion.div>
     </section>
   );
 }
 
-function FeaturesSection() {
-  const features = [
-    { icon: Coffee, title: 'Fresh Beans', desc: 'Sourced from the world\'s finest coffee regions' },
-    { icon: Award, title: 'Handcrafted', desc: 'Every cup made with precision and care' },
-    { icon: Leaf, title: 'Sustainable', desc: 'Ethically sourced and eco-friendly practices' },
-  ];
+/* ─────────────── MARQUEE BANNER ─────────────── */
+function MarqueeBanner() {
+  const words = ['Fresh Roasted', '·', 'Single Origin', '·', 'Handcrafted', '·', 'Ethically Sourced', '·', 'Small Batch', '·', 'Artisan Blend', '·'];
+  const doubled = [...words, ...words];
 
   return (
-    <section className="py-24">
-      <div className="container mx-auto px-4">
-        <FadeInSection className="text-center mb-16">
-          <p className="text-accent text-sm font-medium tracking-widest uppercase mb-3">Why Choose Us</p>
-          <h2 className="text-3xl md:text-4xl font-bold">The BrewHaven Difference</h2>
-        </FadeInSection>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {features.map((f, i) => (
-            <FadeInSection key={f.title} delay={i * 0.15}>
-              <div className="glass rounded-2xl p-8 text-center hover-lift">
-                <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mx-auto mb-5">
-                  <f.icon className="w-7 h-7 text-accent" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2 text-foreground">{f.title}</h3>
-                <p className="text-sm text-muted-foreground">{f.desc}</p>
-              </div>
-            </FadeInSection>
-          ))}
-        </div>
+    <div className="py-6 overflow-hidden border-y border-border/30 bg-card/30">
+      <div className="animate-scroll flex whitespace-nowrap">
+        {doubled.map((word, i) => (
+          <span key={i} className={`mx-4 text-sm font-light tracking-widest uppercase ${word === '·' ? 'text-accent' : 'text-muted-foreground/60'}`}>
+            {word}
+          </span>
+        ))}
       </div>
-    </section>
+    </div>
   );
 }
 
-function FeaturedMenuSection() {
-  const featured = menuItems.slice(0, 4);
-
+/* ─────────────── PHILOSOPHY ─────────────── */
+function PhilosophySection() {
   return (
-    <section className="py-24 bg-card/50">
-      <div className="container mx-auto px-4">
-        <FadeInSection className="text-center mb-16">
-          <p className="text-accent text-sm font-medium tracking-widest uppercase mb-3">Our Menu</p>
-          <h2 className="text-3xl md:text-4xl font-bold">Featured Picks</h2>
-        </FadeInSection>
+    <section className="py-28 lg:py-36 relative overflow-hidden">
+      <div className="absolute top-20 right-0 w-[400px] h-[400px] blob-2 bg-accent/3 animate-drift pointer-events-none" />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featured.map((item, i) => (
-            <FadeInSection key={item.id} delay={i * 0.1}>
-              <div className="glass rounded-2xl overflow-hidden hover-lift group">
-                <div className="aspect-square overflow-hidden">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    loading="lazy"
-                    width={400}
-                    height={400}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          {/* Left: Large statement */}
+          <div className="lg:col-span-5">
+            <FadeIn>
+              <p className="text-accent text-xs font-medium tracking-[0.25em] uppercase mb-6">Our Philosophy</p>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold leading-tight mb-6">
+                Coffee is an art.<br />
+                <span className="text-muted-foreground font-light italic">We're the artists.</span>
+              </h2>
+              <div className="w-16 h-0.5 bg-gradient-to-r from-accent to-transparent mb-6" />
+              <p className="text-muted-foreground leading-relaxed text-lg font-light">
+                From farm to cup, every step is intentional. We partner with growers who share our obsession with quality, and we roast every bean to unlock its fullest potential.
+              </p>
+            </FadeIn>
+          </div>
+
+          {/* Right: Offset image + floating cards */}
+          <div className="lg:col-span-7 relative">
+            <FadeIn delay={0.2} direction="right">
+              <div className="relative ml-0 lg:ml-12">
+                <img
+                  src={coffeeBeans}
+                  alt="Fresh roasted coffee beans"
+                  loading="lazy"
+                  width={700}
+                  height={500}
+                  className="w-full h-[350px] lg:h-[450px] object-cover blob-3"
+                />
+                {/* Overlapping stat cards */}
+                <div className="absolute -bottom-6 -left-6 lg:-left-16 glass-strong rounded-2xl p-5 max-w-[200px]">
+                  <p className="text-3xl font-display font-bold text-accent mb-1">12+</p>
+                  <p className="text-xs text-muted-foreground">Countries sourced from across three continents</p>
                 </div>
-                <div className="p-5">
-                  <h3 className="font-semibold text-foreground mb-1">{item.name}</h3>
-                  <p className="text-xs text-muted-foreground mb-3">{item.description}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-accent font-bold">₹{item.price}</span>
-                    <Button variant="hero" size="sm" asChild>
-                      <Link to="/menu">Order</Link>
-                    </Button>
+                <div className="absolute -top-4 -right-4 glass-strong rounded-2xl p-4">
+                  <div className="flex items-center gap-2">
+                    <Leaf className="w-4 h-4 text-green-400" />
+                    <p className="text-xs text-muted-foreground">100% Sustainable</p>
                   </div>
                 </div>
               </div>
-            </FadeInSection>
-          ))}
+            </FadeIn>
+          </div>
         </div>
-
-        <FadeInSection className="text-center mt-12">
-          <Button variant="glass" size="lg" asChild>
-            <Link to="/menu">View Full Menu <ArrowRight className="w-4 h-4 ml-1" /></Link>
-          </Button>
-        </FadeInSection>
       </div>
     </section>
   );
 }
 
+/* ─────────────── FEATURES ─────────────── */
+function FeaturesSection() {
+  const features = [
+    { icon: Coffee, title: 'Fresh Daily Roasts', desc: 'Beans roasted every morning in micro-batches for peak freshness and flavor', num: '01' },
+    { icon: Award, title: 'Award-Winning Blends', desc: 'Our signature blends have won 8 national barista championships', num: '02' },
+    { icon: Leaf, title: 'Farm to Cup', desc: 'Direct trade with farmers ensures fair wages and exceptional quality', num: '03' },
+  ];
+
+  return (
+    <section className="py-28 lg:py-36 section-flow">
+      <div className="container mx-auto px-4 lg:px-8">
+        <FadeIn className="max-w-xl mb-20">
+          <p className="text-accent text-xs font-medium tracking-[0.25em] uppercase mb-4">Why BrewHaven</p>
+          <h2 className="text-3xl sm:text-4xl font-display font-bold">
+            What makes us <span className="italic text-gradient-warm">different</span>
+          </h2>
+        </FadeIn>
+
+        <div className="space-y-0">
+          {features.map((f, i) => (
+            <FadeIn key={f.title} delay={i * 0.12}>
+              <div className="group flex flex-col sm:flex-row items-start gap-6 sm:gap-10 py-10 border-b border-border/30 hover:border-accent/30 transition-colors duration-500">
+                <span className="text-xs text-accent/40 font-mono tracking-wider mt-1">{f.num}</span>
+                <div className="w-12 h-12 rounded-2xl bg-accent/5 flex items-center justify-center shrink-0 group-hover:bg-accent/10 transition-colors duration-500">
+                  <f.icon className="w-5 h-5 text-accent" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-display font-semibold mb-2 text-foreground group-hover:text-accent transition-colors duration-500">{f.title}</h3>
+                  <p className="text-muted-foreground font-light leading-relaxed max-w-lg">{f.desc}</p>
+                </div>
+                <ArrowRight className="w-5 h-5 text-muted-foreground/30 group-hover:text-accent group-hover:translate-x-2 transition-all duration-500 hidden sm:block mt-1" />
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────── FEATURED MENU ─────────────── */
+function FeaturedMenuSection() {
+  const items = [
+    { name: 'Classic Espresso', price: 149, image: espressoImg, tag: 'Best Seller' },
+    { name: 'Signature Latte', price: 249, image: heroCoffee, tag: 'House Special' },
+    { name: 'Cappuccino', price: 229, image: cappuccinoImg, tag: null },
+    { name: 'Iced Mocha', price: 279, image: icedCoffeeImg, tag: 'New' },
+  ];
+
+  return (
+    <section className="py-28 lg:py-36 relative overflow-hidden">
+      <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] blob bg-accent/3 animate-drift pointer-events-none" />
+
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-16">
+          <FadeIn>
+            <p className="text-accent text-xs font-medium tracking-[0.25em] uppercase mb-4">The Menu</p>
+            <h2 className="text-3xl sm:text-4xl font-display font-bold">
+              Curated <span className="italic font-light">for you</span>
+            </h2>
+          </FadeIn>
+          <FadeIn delay={0.2}>
+            <Button variant="glass" className="rounded-full" asChild>
+              <Link to="/menu">View Full Menu <ArrowRight className="w-4 h-4 ml-2" /></Link>
+            </Button>
+          </FadeIn>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {items.map((item, i) => (
+            <FadeIn key={item.name} delay={i * 0.1}>
+              <Link to="/menu" className="group block">
+                <div className="organic-card bg-card hover-lift overflow-hidden">
+                  <div className="relative aspect-[4/5] overflow-hidden">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      loading="lazy"
+                      width={400}
+                      height={500}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
+
+                    {item.tag && (
+                      <span className="absolute top-4 left-4 text-[10px] font-medium tracking-wider uppercase px-3 py-1 rounded-full glass text-accent">
+                        {item.tag}
+                      </span>
+                    )}
+
+                    <div className="absolute bottom-0 left-0 right-0 p-5">
+                      <h3 className="font-display text-lg font-semibold text-foreground mb-1">{item.name}</h3>
+                      <div className="flex items-center justify-between">
+                        <span className="text-accent font-bold text-lg">₹{item.price}</span>
+                        <span className="text-xs text-muted-foreground group-hover:text-accent transition-colors">
+                          Order →
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </FadeIn>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────── EXPERIENCE / PARALLAX ─────────────── */
 function ExperienceSection() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '-15%']);
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '-20%']);
+  const textY = useTransform(scrollYProgress, [0, 1], ['0%', '-10%']);
 
   return (
-    <section ref={ref} className="relative py-32 overflow-hidden">
+    <section ref={ref} className="relative py-0 overflow-hidden min-h-[80vh] flex items-center">
       <motion.div style={{ y }} className="absolute inset-0">
         <img
           src={cafeInterior}
@@ -205,86 +395,172 @@ function ExperienceSection() {
           loading="lazy"
           width={1200}
           height={800}
-          className="w-full h-full object-cover"
+          className="w-full h-[120%] object-cover"
         />
-        <div className="absolute inset-0 bg-background/80" />
+        <div className="absolute inset-0 bg-background/75 backdrop-blur-[2px]" />
       </motion.div>
 
-      <div className="relative z-10 container mx-auto px-4 text-center">
-        <FadeInSection>
-          <p className="text-accent text-sm font-medium tracking-widest uppercase mb-3">The Experience</p>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 max-w-2xl mx-auto leading-tight">
-            More Than Just Coffee
-          </h2>
-          <p className="text-muted-foreground max-w-lg mx-auto mb-8 text-lg">
-            A sanctuary where every sip is a moment of peace. Come for the coffee, stay for the atmosphere.
-          </p>
-          <Button variant="hero" size="lg" asChild>
-            <Link to="/about">Discover Our Story</Link>
-          </Button>
-        </FadeInSection>
-      </div>
+      <motion.div style={{ y: textY }} className="relative z-10 container mx-auto px-4 lg:px-8 py-28">
+        <div className="max-w-2xl">
+          <FadeIn>
+            <p className="text-accent text-xs font-medium tracking-[0.25em] uppercase mb-6">The Space</p>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold leading-tight mb-8">
+              More than<br />
+              a coffee shop.
+              <br />
+              <span className="italic text-muted-foreground font-light">A feeling.</span>
+            </h2>
+            <p className="text-muted-foreground text-lg font-light leading-relaxed mb-10 max-w-lg">
+              Warm lights, the hum of quiet conversation, the rich aroma filling the air — BrewHaven is designed to be your third place. Come in, slow down, be present.
+            </p>
+            <Button variant="hero" size="lg" className="rounded-full px-8 py-6" asChild>
+              <Link to="/about">Discover Our Story</Link>
+            </Button>
+          </FadeIn>
+        </div>
+      </motion.div>
     </section>
   );
 }
 
-function LocationSection() {
+/* ─────────────── TESTIMONIALS ─────────────── */
+function TestimonialsSection() {
+  const testimonials = [
+    { text: "The best latte I've ever had. The atmosphere is unmatched — you can feel the care in every detail.", name: 'Ananya R.', role: 'Regular since 2021' },
+    { text: "I drive 30 minutes just for their cold brew. Worth every kilometer.", name: 'Karthik M.', role: 'Cold Brew Enthusiast' },
+    { text: "BrewHaven turned me from a tea person into a coffee lover. That's the highest praise I can give.", name: 'Divya S.', role: 'Converted Coffee Lover' },
+  ];
+
   return (
-    <section className="py-24">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <FadeInSection>
-            <div className="rounded-2xl overflow-hidden">
-              <img
-                src={coffeeBeans}
-                alt="Fresh roasted coffee beans"
-                loading="lazy"
-                width={600}
-                height={400}
-                className="w-full h-80 object-cover"
-              />
-            </div>
-          </FadeInSection>
-          <FadeInSection delay={0.2}>
-            <p className="text-accent text-sm font-medium tracking-widest uppercase mb-3">Find Us</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Visit BrewHaven</h2>
-            <div className="space-y-4 text-muted-foreground">
-              <p>📍 123 Coffee Lane, Brew District, BC 10001</p>
-              <p>🕐 Mon – Fri: 7 AM – 9 PM</p>
-              <p>🕐 Sat – Sun: 8 AM – 10 PM</p>
-              <p>📞 +1 (555) 123-4567</p>
-            </div>
-          </FadeInSection>
+    <section className="py-28 lg:py-36 section-flow">
+      <div className="container mx-auto px-4 lg:px-8">
+        <FadeIn className="text-center mb-20">
+          <p className="text-accent text-xs font-medium tracking-[0.25em] uppercase mb-4">Kind Words</p>
+          <h2 className="text-3xl sm:text-4xl font-display font-bold">
+            What our <span className="italic font-light">community</span> says
+          </h2>
+        </FadeIn>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {testimonials.map((t, i) => (
+            <FadeIn key={t.name} delay={i * 0.15}>
+              <div className="organic-card bg-card/50 glass p-8 flex flex-col justify-between min-h-[280px]">
+                <div>
+                  <div className="flex gap-1 mb-5">
+                    {[1,2,3,4,5].map(s => <Star key={s} className="w-3.5 h-3.5 fill-accent text-accent" />)}
+                  </div>
+                  <p className="text-foreground/90 font-light leading-relaxed text-[15px] italic">
+                    "{t.text}"
+                  </p>
+                </div>
+                <div className="mt-6 pt-5 border-t border-border/20">
+                  <p className="text-sm font-medium text-foreground">{t.name}</p>
+                  <p className="text-xs text-muted-foreground">{t.role}</p>
+                </div>
+              </div>
+            </FadeIn>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function CTASection() {
+/* ─────────────── LOCATION ─────────────── */
+function LocationSection() {
   return (
-    <section className="py-24 bg-gradient-warm">
-      <div className="container mx-auto px-4 text-center">
-        <FadeInSection>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Ready for Your Perfect Cup?</h2>
-          <p className="text-foreground/70 mb-8 max-w-md mx-auto">Order ahead and skip the line. Your handcrafted coffee awaits.</p>
-          <Button variant="hero" size="lg" asChild>
-            <Link to="/menu">Order Now <ArrowRight className="w-4 h-4 ml-1" /></Link>
-          </Button>
-        </FadeInSection>
+    <section className="py-28 lg:py-36 relative overflow-hidden">
+      <div className="absolute top-10 -right-10 w-[250px] h-[250px] blob-3 bg-accent/3 animate-drift pointer-events-none" />
+
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-5">
+            <FadeIn>
+              <p className="text-accent text-xs font-medium tracking-[0.25em] uppercase mb-6">Find Us</p>
+              <h2 className="text-3xl sm:text-4xl font-display font-bold mb-8">
+                Come say <span className="italic">hello</span>
+              </h2>
+
+              <div className="space-y-5">
+                {[
+                  { icon: MapPin, label: '123 Coffee Lane, Brew District, BC 10001' },
+                  { icon: Clock, label: 'Mon – Fri: 7 AM – 9 PM · Weekends: 8 AM – 10 PM' },
+                  { icon: Phone, label: '+1 (555) 123-4567' },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-4 group">
+                    <div className="w-10 h-10 rounded-xl bg-accent/5 flex items-center justify-center shrink-0 group-hover:bg-accent/10 transition-colors">
+                      <item.icon className="w-4 h-4 text-accent" />
+                    </div>
+                    <p className="text-muted-foreground text-sm leading-relaxed pt-2">{item.label}</p>
+                  </div>
+                ))}
+              </div>
+            </FadeIn>
+          </div>
+
+          <div className="lg:col-span-7">
+            <FadeIn delay={0.2} direction="right">
+              <div className="relative">
+                <img
+                  src={cafeInterior}
+                  alt="BrewHaven café"
+                  loading="lazy"
+                  width={700}
+                  height={450}
+                  className="w-full h-[350px] lg:h-[420px] object-cover blob-2"
+                />
+                <div className="absolute inset-0 blob-2 bg-gradient-to-r from-background/30 to-transparent" />
+              </div>
+            </FadeIn>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
 
+/* ─────────────── FINAL CTA ─────────────── */
+function CTASection() {
+  return (
+    <section className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-warm" />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-20 -right-20 w-[400px] h-[400px] blob bg-accent/10 animate-drift" />
+        <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] blob-2 bg-foreground/5 animate-drift" style={{ animationDelay: '3s' }} />
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4 text-center">
+        <FadeIn>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6 text-foreground leading-tight">
+            Your perfect cup<br />
+            <span className="italic font-light">is waiting.</span>
+          </h2>
+          <p className="text-foreground/60 text-lg font-light mb-10 max-w-md mx-auto">
+            Order ahead and skip the line. Ready in minutes.
+          </p>
+          <Button variant="hero" size="lg" className="rounded-full px-10 py-6 text-base" asChild>
+            <Link to="/menu">
+              Start Your Order <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
+          </Button>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────── PAGE ─────────────── */
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <Navbar />
       <HeroSection />
+      <MarqueeBanner />
+      <PhilosophySection />
       <FeaturesSection />
       <FeaturedMenuSection />
       <ExperienceSection />
+      <TestimonialsSection />
       <LocationSection />
       <CTASection />
       <Footer />

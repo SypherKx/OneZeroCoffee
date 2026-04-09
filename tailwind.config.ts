@@ -16,6 +16,10 @@ export default {
       fontFamily: {
         sans: ["Poppins", "Inter", "system-ui", "sans-serif"],
       },
+      fontFamily: {
+        sans: ["Poppins", "system-ui", "sans-serif"],
+        display: ["Playfair Display", "Georgia", "serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
