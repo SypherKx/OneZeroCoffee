@@ -81,6 +81,15 @@ function HeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
+              className="mb-6"
+            >
+              <img src="/favicon.svg" alt="One Zero Coffee Logo" className="w-16 h-16 sm:w-20 sm:h-20 rounded-full shadow-2xl shadow-accent/20" />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
               className="inline-flex items-center gap-2 mb-8 px-5 py-2 rounded-full glass text-[11px] font-semibold tracking-[0.15em] uppercase text-accent/90"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
@@ -91,7 +100,7 @@ function HeroSection() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[3.2rem] sm:text-6xl lg:text-8xl font-display font-bold leading-[1.05] mb-6"
+              className="text-[3.2rem] sm:text-6xl lg:text-7xl xl:text-8xl font-display font-bold leading-[1.05] mb-6"
             >
               Where Every
               <br />

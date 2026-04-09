@@ -28,13 +28,14 @@ export default function AboutPage() {
 
       <div className="container mx-auto px-4 pt-24 pb-16">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <p className="text-accent text-sm font-medium tracking-widest uppercase mb-3">Our Story</p>
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground">About One Zero Coffee</h1>
-        </motion.div>
+           initial={{ opacity: 0, y: 20 }}
+           animate={{ opacity: 1, y: 0 }}
+           className="flex flex-col items-center mb-16"
+         >
+           <img src="/favicon.svg" alt="One Zero Coffee Logo" className="w-20 h-20 rounded-full mb-6 shadow-xl" />
+           <p className="text-accent text-sm font-medium tracking-widest uppercase mb-3 text-center">Our Story</p>
+           <h1 className="text-4xl md:text-5xl font-bold text-foreground text-center">About One Zero Coffee</h1>
+         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
           <FadeIn>
