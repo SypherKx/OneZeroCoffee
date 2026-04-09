@@ -245,6 +245,7 @@ function PhilosophySection() {
           {/* Left: Large statement */}
           <div className="lg:col-span-5">
             <FadeIn>
+              <img src="/favicon.svg" alt="One Zero Coffee Logo" className="w-12 h-12 rounded-full mb-6 opacity-80" />
               <p className="text-accent text-xs font-medium tracking-[0.25em] uppercase mb-6">Our Philosophy</p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold leading-tight mb-6">
                 Coffee is an art.<br />
@@ -368,6 +369,7 @@ function FeaturesSection() {
       <BeanTrail />
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <FadeIn className="max-w-xl mb-20">
+          <img src="/favicon.svg" alt="One Zero Coffee Logo" className="w-12 h-12 rounded-full mb-6 opacity-80" />
           <p className="text-accent text-xs font-medium tracking-[0.25em] uppercase mb-4">Why One Zero Coffee</p>
           <h2 className="text-3xl sm:text-4xl font-display font-bold">
             What makes us <span className="italic text-gradient-warm">different</span>
@@ -618,6 +620,7 @@ function CTASection() {
 
       <div className="relative z-10 container mx-auto px-4 text-center">
         <FadeIn>
+          <img src="/favicon.svg" alt="One Zero Coffee Logo" className="w-20 h-20 rounded-full mx-auto mb-8 shadow-2xl" />
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6 text-foreground leading-tight">
             Your perfect cup<br />
             <span className="italic font-light">is waiting.</span>
