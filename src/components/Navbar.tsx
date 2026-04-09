@@ -22,7 +22,7 @@ export default function Navbar() {
         <Link to="/" className="flex items-center gap-2 group">
           <Coffee className="w-6 h-6 text-accent transition-transform duration-300 group-hover:rotate-12" />
           <span className="text-lg font-bold tracking-tight text-foreground">
-            Brew<span className="text-accent">Haven</span>
+            One Zero <span className="text-accent">Coffee</span>
           </span>
         </Link>
 

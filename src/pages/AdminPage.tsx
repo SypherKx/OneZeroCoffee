@@ -144,7 +144,7 @@ export default function AdminPage() {
         {activeTab === 'menu' && (
           <div className="glass rounded-2xl p-6">
             <p className="text-muted-foreground text-sm text-center py-8">
-              Connect Lovable Cloud to enable full menu management with database persistence.
+              Connect a backend or database to enable full menu management with data persistence.
             </p>
           </div>
         )}

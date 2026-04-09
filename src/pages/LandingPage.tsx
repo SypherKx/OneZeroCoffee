@@ -25,7 +25,7 @@ function FadeIn({ children, className = '', delay = 0, direction = 'up' }: {
       ref={ref}
       initial={{ opacity: 0, ...initial }}
       animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >
       {children}
@@ -43,22 +43,45 @@ function HeroSection() {
 
   return (
     <section ref={ref} className="relative min-h-[110vh] flex items-center overflow-hidden bg-gradient-hero">
-      {/* Organic background blobs */}
+      {/* Background Glows & Typography */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] blob bg-accent/5 animate-drift" />
-        <div className="absolute bottom-20 -left-20 w-[350px] h-[350px] blob-2 bg-mocha/8 animate-drift" style={{ animationDelay: '4s' }} />
-        <div className="absolute top-1/2 right-1/4 w-[200px] h-[200px] blob-3 bg-accent/3 animate-drift" style={{ animationDelay: '8s' }} />
+        {/* Glow behind main text */}
+        <div className="absolute top-[5%] left-[0%] w-[800px] h-[800px] rounded-full blur-[120px] animate-pulse" style={{ backgroundColor: 'rgba(255, 140, 66, 0.25)', animationDuration: '4s' }} />
+        {/* Glow behind coffee cup */}
+        <div className="absolute top-[10%] right-[-10%] w-[800px] h-[800px] rounded-full blur-[140px] animate-pulse" style={{ backgroundColor: 'rgba(212, 107, 37, 0.3)', animationDuration: '6s' }} />
+
+        {/* Animated Background Text - Top */}
+        <div className="absolute top-[2%] w-full overflow-visible whitespace-nowrap opacity-100">
+          <p className="outline-text-animated text-[140px] lg:text-[280px] font-display italic leading-none transform -rotate-[6deg] origin-left pl-6">
+            Artisan Roasters
+          </p>
+        </div>
+
+        {/* Animated Background Text - Bottom */}
+        <div className="absolute bottom-[-5%] w-full overflow-visible whitespace-nowrap opacity-100">
+          <p className="outline-text-animated text-[140px] lg:text-[280px] font-display italic leading-none transform -rotate-[6deg] origin-right text-right pr-6" style={{ animationDelay: '3s' }}>
+            Craft Brew
+          </p>
+        </div>
+
+        {/* Floating blurred beans simulated */}
+        <div className="absolute top-[18%] right-[25%] w-12 h-16 rounded-full blur-[4px] rotate-[20deg]" style={{ backgroundColor: 'rgba(74, 45, 25, 0.8)' }} />
+        <div className="absolute top-[28%] right-[8%] w-8 h-12 rounded-full blur-[2px] rotate-[65deg]" style={{ backgroundColor: 'rgba(60, 34, 16, 0.9)' }} />
+        <div className="absolute bottom-[22%] left-[40%] w-20 h-28 rounded-full blur-[6px] -rotate-[15deg]" style={{ backgroundColor: 'rgba(86, 49, 24, 0.7)' }} />
+
+
       </div>
 
       <motion.div style={{ opacity: heroOpacity }} className="relative z-10 container mx-auto px-4 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-0 pt-20 lg:pt-0">
-          {/* Left: Text */}
-          <div className="flex-1 text-center lg:text-left lg:pr-8">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 lg:grid-rows-[auto_auto] items-center gap-10 lg:gap-8 pt-24 lg:pt-0 w-full">
+          
+          {/* 1. TOP TEXT (Mobile Top, Desktop Top-Left) */}
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left lg:col-start-1 lg:row-start-1 lg:self-end lg:pr-8 mx-auto lg:mx-0 max-w-xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
-              className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full glass text-xs font-medium tracking-widest uppercase text-accent"
+              className="inline-flex items-center gap-2 mb-8 px-5 py-2 rounded-full glass text-[11px] font-semibold tracking-[0.15em] uppercase text-accent/90"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               Est. 2020 · Artisan Roasters
@@ -67,75 +90,37 @@ function HeroSection() {
             <motion.h1
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-              className="text-5xl sm:text-6xl lg:text-8xl font-display font-bold leading-[0.95] mb-6"
+              transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[3.2rem] sm:text-6xl lg:text-8xl font-display font-bold leading-[1.05] mb-6"
             >
               Where Every
               <br />
-              <span className="text-gradient-warm italic">Sip Matters</span>
+              <span className="text-[#E6A87C] italic font-medium tracking-wide">Sip Matters</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.8 }}
-              className="text-muted-foreground text-lg lg:text-xl max-w-lg mx-auto lg:mx-0 mb-10 leading-relaxed font-light"
+              className="text-muted-foreground/90 text-base sm:text-lg lg:text-xl max-w-md lg:max-w-lg mb-4 leading-relaxed font-light"
             >
               Single-origin beans, roasted in small batches, brewed with obsessive precision. This isn't just coffee — it's a ritual.
             </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-            >
-              <Button variant="hero" size="lg" className="text-base px-8 py-6 rounded-full" asChild>
-                <Link to="/menu">
-                  Order Now <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </Button>
-              <Button variant="glass" size="lg" className="text-base px-8 py-6 rounded-full" asChild>
-                <Link to="/about">Our Story</Link>
-              </Button>
-            </motion.div>
-
-            {/* Social proof */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.2 }}
-              className="mt-12 flex items-center gap-6 justify-center lg:justify-start"
-            >
-              <div className="flex -space-x-3">
-                {[1,2,3,4].map(i => (
-                  <div key={i} className="w-9 h-9 rounded-full bg-muted border-2 border-background flex items-center justify-center text-xs text-muted-foreground">
-                    {['AK','PS','RM','VG'][i-1]}
-                  </div>
-                ))}
-              </div>
-              <div>
-                <div className="flex items-center gap-0.5 mb-0.5">
-                  {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-accent text-accent" />)}
-                </div>
-                <p className="text-xs text-muted-foreground">Loved by <span className="text-foreground font-medium">2,400+</span> coffee lovers</p>
-              </div>
-            </motion.div>
           </div>
 
-          {/* Right: Coffee Image - Organic shape */}
+          {/* 2. IMAGE (Mobile Middle, Desktop Right Span-2) */}
           <motion.div
             style={{ scale: imageScale }}
-            className="flex-1 flex justify-center lg:justify-end relative"
+            className="flex justify-center relative w-full lg:col-start-2 lg:row-start-1 lg:row-span-2 pt-4 pb-2 lg:py-0"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ delay: 0.6, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="relative"
+              transition={{ delay: 0.6, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              className="relative scale-95 sm:scale-100"
             >
               {/* Glow behind cup */}
-              <div className="absolute inset-0 blur-[80px] bg-accent/20 blob animate-glow" />
+              <div className="absolute inset-0 blur-[80px] bg-[#D46B25]/20 blob animate-glow" />
 
               <div className="relative animate-float">
                 <img
@@ -143,11 +128,11 @@ function HeroSection() {
                   alt="Premium artisan latte"
                   width={520}
                   height={520}
-                  className="relative blob w-64 h-64 sm:w-80 sm:h-80 lg:w-[420px] lg:h-[420px] object-cover shadow-2xl shadow-background/50"
+                  className="relative blob w-72 h-72 sm:w-80 sm:h-80 lg:w-[460px] lg:h-[460px] object-cover shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
                 />
                 {/* Steam wisps */}
-                <div className="absolute -top-6 left-1/3 w-16 h-20 bg-foreground/3 rounded-full blur-lg steam-animation" />
-                <div className="absolute -top-4 left-1/2 w-12 h-16 bg-foreground/4 rounded-full blur-md steam-animation" style={{ animationDelay: '1s' }} />
+                <div className="absolute -top-6 left-1/3 w-16 h-20 bg-white/5 rounded-full blur-xl steam-animation" />
+                <div className="absolute -top-4 left-1/2 w-12 h-16 bg-white/5 rounded-full blur-lg steam-animation" style={{ animationDelay: '1s' }} />
               </div>
 
               {/* Floating badge */}
@@ -155,10 +140,10 @@ function HeroSection() {
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.4 }}
-                className="absolute -right-4 top-1/4 glass-strong rounded-2xl px-4 py-3"
+                className="absolute -right-2 sm:-right-8 top-1/4 glass-strong rounded-2xl px-5 py-3.5 shadow-xl backdrop-blur-md"
               >
-                <p className="text-xs text-accent font-medium">100% Arabica</p>
-                <p className="text-[10px] text-muted-foreground">Single Origin</p>
+                <p className="text-sm text-foreground font-semibold">100% Arabica</p>
+                <p className="text-[11px] text-[#D46B25] font-medium tracking-wider uppercase mt-0.5">Single Origin</p>
               </motion.div>
 
               {/* Floating price tag */}
@@ -166,31 +151,57 @@ function HeroSection() {
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.6 }}
-                className="absolute -left-4 bottom-1/4 glass-strong rounded-2xl px-4 py-3"
+                className="absolute -left-2 sm:-left-8 bottom-1/4 glass-strong rounded-2xl px-5 py-3.5 shadow-xl backdrop-blur-md"
               >
-                <p className="text-xs text-muted-foreground">Starting at</p>
-                <p className="text-lg font-bold text-accent">₹149</p>
+                <p className="text-[11px] text-muted-foreground uppercase tracking-wider mb-0.5">Starting at</p>
+                <p className="text-xl font-bold text-foreground">₹149</p>
               </motion.div>
             </motion.div>
           </motion.div>
-        </div>
-      </motion.div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Scroll</p>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="w-5 h-8 rounded-full border border-muted-foreground/30 flex items-start justify-center pt-1.5"
-        >
-          <div className="w-1 h-1.5 rounded-full bg-accent" />
-        </motion.div>
+          {/* 3. BOTTOM CONTENT (Mobile Bottom, Desktop Bottom-Left) */}
+          <div className="flex flex-col items-center lg:items-start lg:col-start-1 lg:row-start-2 lg:self-start w-full gap-8 mt-2 lg:mt-0">
+            {/* Social proof */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2 }}
+              className="flex items-center gap-5 justify-center lg:justify-start"
+            >
+              <div className="flex -space-x-3">
+                {['AK','PS','RM','VG'].map((initial, i) => (
+                  <div key={i} className="w-10 h-10 rounded-full bg-[#2A1B14] border-2 border-background flex items-center justify-center text-[10px] font-medium text-muted-foreground shadow-sm">
+                    {initial}
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-col justify-center">
+                <div className="flex items-center gap-1 mb-1">
+                  {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-[#D46B25] text-[#D46B25]" />)}
+                </div>
+                <p className="text-xs text-muted-foreground">Loved by <span className="text-foreground font-medium">2,400+</span> coffee lovers</p>
+              </div>
+            </motion.div>
+
+            {/* Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9 }}
+              className="flex flex-row gap-4 justify-center lg:justify-start w-full sm:w-auto px-4 sm:px-0 pb-10 lg:pb-0"
+            >
+              <Button asChild className="flex-1 sm:flex-none text-[15px] font-semibold px-6 sm:px-8 py-7 rounded-full bg-gradient-to-r from-[#D78B5D] to-[#A4532B] text-white hover:opacity-90 border-0 shadow-lg shadow-[#D46B25]/20 transition-all duration-300">
+                <Link to="/menu" className="flex items-center justify-center">
+                  Order Now <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
+              <Button variant="glass" className="flex-1 sm:flex-none text-[15px] font-medium px-6 sm:px-8 py-7 rounded-full border border-white/10 hover:bg-white/5 transition-all duration-300" asChild>
+                <Link to="/about" className="flex items-center justify-center">Our Story</Link>
+              </Button>
+            </motion.div>
+          </div>
+
+        </div>
       </motion.div>
     </section>
   );
@@ -269,6 +280,72 @@ function PhilosophySection() {
   );
 }
 
+/* ─────────────── ELEGANT BEAN TRAIL ─────────────── */
+const OutlineBean = ({ x, y, size, rotate, opacity, blur }: { x: number; y: number; size: number; rotate: number; opacity: number; blur: number }) => (
+  <svg 
+    viewBox="0 0 60 80" 
+    width={size} 
+    height={size * 1.3}
+    className="absolute"
+    style={{ 
+      left: `${x}%`, 
+      top: `${y}%`, 
+      transform: `rotate(${rotate}deg)`, 
+      opacity,
+      filter: blur ? `blur(${blur}px)` : 'none',
+    }}
+  >
+    <ellipse cx="30" cy="40" rx="22" ry="34" fill="none" stroke="#C8956C" strokeWidth="1.5" />
+    <path d="M24 8 C 42 28, 18 52, 36 72" fill="none" stroke="#C8956C" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
+function BeanTrail() {
+  const beans = [
+    // Top-right dense cluster (near the coffee image)
+    { x: 82, y: -8, size: 38, rotate: 20, opacity: 0.7, blur: 0 },
+    { x: 88, y: -2, size: 28, rotate: -30, opacity: 0.4, blur: 2 },
+    { x: 75, y: -4, size: 44, rotate: 50, opacity: 0.8, blur: 0 },
+    { x: 80, y: 5, size: 32, rotate: -15, opacity: 0.5, blur: 1 },
+    { x: 92, y: 2, size: 50, rotate: 80, opacity: 0.2, blur: 4 },
+    { x: 72, y: -12, size: 22, rotate: -50, opacity: 0.35, blur: 3 },
+    
+    // Flowing diagonally down — mid section
+    { x: 70, y: 10, size: 40, rotate: 30, opacity: 0.7, blur: 0 },
+    { x: 65, y: 6, size: 30, rotate: -40, opacity: 0.4, blur: 2 },
+    { x: 62, y: 18, size: 46, rotate: 55, opacity: 0.8, blur: 0 },
+    { x: 58, y: 12, size: 26, rotate: 15, opacity: 0.5, blur: 1.5 },
+    { x: 67, y: 25, size: 34, rotate: -65, opacity: 0.3, blur: 3 },
+    { x: 54, y: 22, size: 42, rotate: 35, opacity: 0.7, blur: 0 },
+    { x: 48, y: 16, size: 24, rotate: -25, opacity: 0.4, blur: 2.5 },
+    
+    // Continuing flow — lower section  
+    { x: 45, y: 32, size: 36, rotate: 85, opacity: 0.6, blur: 1 },
+    { x: 40, y: 42, size: 48, rotate: -15, opacity: 0.8, blur: 0 },
+    { x: 38, y: 28, size: 28, rotate: 45, opacity: 0.4, blur: 2 },
+    { x: 32, y: 38, size: 32, rotate: -55, opacity: 0.5, blur: 1.5 },
+    { x: 28, y: 48, size: 40, rotate: 10, opacity: 0.7, blur: 0 },
+    { x: 24, y: 35, size: 24, rotate: 65, opacity: 0.3, blur: 3 },
+    { x: 20, y: 45, size: 36, rotate: -30, opacity: 0.6, blur: 1 },
+    
+    // Scattered atmospheric (depth of field)
+    { x: 60, y: 38, size: 55, rotate: 75, opacity: 0.12, blur: 5 },
+    { x: 50, y: -5, size: 52, rotate: -45, opacity: 0.12, blur: 4 },
+    { x: 30, y: 20, size: 30, rotate: 120, opacity: 0.2, blur: 3 },
+    { x: 78, y: 35, size: 28, rotate: -85, opacity: 0.25, blur: 2.5 },
+    { x: 85, y: 50, size: 65, rotate: 15, opacity: 0.08, blur: 6 },
+    { x: 15, y: 55, size: 44, rotate: 95, opacity: 0.15, blur: 4 },
+  ];
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      {beans.map((bean, i) => (
+        <OutlineBean key={i} {...bean} />
+      ))}
+    </div>
+  );
+}
+
 /* ─────────────── FEATURES ─────────────── */
 function FeaturesSection() {
   const features = [
@@ -278,10 +355,11 @@ function FeaturesSection() {
   ];
 
   return (
-    <section className="py-28 lg:py-36 section-flow">
-      <div className="container mx-auto px-4 lg:px-8">
+    <section className="py-28 lg:py-36 section-flow relative">
+      <BeanTrail />
+      <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <FadeIn className="max-w-xl mb-20">
-          <p className="text-accent text-xs font-medium tracking-[0.25em] uppercase mb-4">Why BrewHaven</p>
+          <p className="text-accent text-xs font-medium tracking-[0.25em] uppercase mb-4">Why One Zero Coffee</p>
           <h2 className="text-3xl sm:text-4xl font-display font-bold">
             What makes us <span className="italic text-gradient-warm">different</span>
           </h2>
@@ -391,7 +469,7 @@ function ExperienceSection() {
       <motion.div style={{ y }} className="absolute inset-0">
         <img
           src={cafeInterior}
-          alt="BrewHaven café interior"
+          alt="One Zero Coffee interior"
           loading="lazy"
           width={1200}
           height={800}
@@ -411,7 +489,7 @@ function ExperienceSection() {
               <span className="italic text-muted-foreground font-light">A feeling.</span>
             </h2>
             <p className="text-muted-foreground text-lg font-light leading-relaxed mb-10 max-w-lg">
-              Warm lights, the hum of quiet conversation, the rich aroma filling the air — BrewHaven is designed to be your third place. Come in, slow down, be present.
+              Warm lights, the hum of quiet conversation, the rich aroma filling the air — One Zero Coffee is designed to be your third place. Come in, slow down, be present.
             </p>
             <Button variant="hero" size="lg" className="rounded-full px-8 py-6" asChild>
               <Link to="/about">Discover Our Story</Link>
@@ -428,7 +506,7 @@ function TestimonialsSection() {
   const testimonials = [
     { text: "The best latte I've ever had. The atmosphere is unmatched — you can feel the care in every detail.", name: 'Ananya R.', role: 'Regular since 2021' },
     { text: "I drive 30 minutes just for their cold brew. Worth every kilometer.", name: 'Karthik M.', role: 'Cold Brew Enthusiast' },
-    { text: "BrewHaven turned me from a tea person into a coffee lover. That's the highest praise I can give.", name: 'Divya S.', role: 'Converted Coffee Lover' },
+    { text: "One Zero Coffee turned me from a tea person into a coffee lover. That's the highest praise I can give.", name: 'Divya S.', role: 'Converted Coffee Lover' },
   ];
 
   return (
@@ -503,7 +581,7 @@ function LocationSection() {
               <div className="relative">
                 <img
                   src={cafeInterior}
-                  alt="BrewHaven café"
+                  alt="One Zero Coffee café"
                   loading="lazy"
                   width={700}
                   height={450}

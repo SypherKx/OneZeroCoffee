@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Minimalist dark background -->
+  <rect width="120" height="120" rx="28" fill="#1e130d"/>
+  
+  <!-- The "1" -->
+  <rect x="35" y="30" width="12" height="60" rx="6" fill="#D46B25"/>
+  
+  <!-- The "0" shaped as an elegant coffee bean -->
+  <g transform="translate(10, 0)">
+    <ellipse cx="68" cy="60" rx="20" ry="30" fill="#D46B25" transform="rotate(15 68 60)"/>
+    <!-- Center S-curve of the coffee bean -->
+    <path d="M62 31c8 10-2 45 12 58" fill="none" stroke="#1e130d" stroke-width="5" stroke-linecap="round"/>
+  </g>
+</svg>

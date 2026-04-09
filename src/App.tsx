@@ -9,6 +9,8 @@ import AboutPage from "./pages/AboutPage.tsx";
 import AdminPage from "./pages/AdminPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
+import ScrollToTop from "./components/ScrollToTop.tsx";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -17,6 +19,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/menu" element={<MenuPage />} />

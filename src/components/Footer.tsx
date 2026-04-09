@@ -9,7 +9,7 @@ export default function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <Coffee className="w-5 h-5 text-accent" />
               <span className="text-lg font-bold text-foreground">
-                Brew<span className="text-accent">Haven</span>
+                One Zero <span className="text-accent">Coffee</span>
               </span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
@@ -38,7 +38,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-border mt-8 pt-6 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} BrewHaven. All rights reserved.
+          © {new Date().getFullYear()} One Zero Coffee. All rights reserved.
         </div>
       </div>
     </footer>

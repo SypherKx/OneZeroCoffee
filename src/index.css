@@ -233,4 +233,26 @@
   .animate-scroll {
     animation: scroll-left 30s linear infinite;
   }
+
+  .outline-text-animated {
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.06);
+    color: transparent;
+    animation: outlineColorShift 12s ease-in-out infinite alternate;
+    user-select: none;
+  }
+
+  @keyframes outlineColorShift {
+    0% {
+      -webkit-text-stroke-color: rgba(255, 255, 255, 0.04);
+      text-shadow: 0 0 0px transparent;
+    }
+    50% {
+      -webkit-text-stroke-color: rgba(255, 180, 100, 0.12);
+      text-shadow: 0 0 30px rgba(230, 140, 60, 0.08);
+    }
+    100% {
+      -webkit-text-stroke-color: rgba(255, 255, 255, 0.04);
+      text-shadow: 0 0 0px transparent;
+    }
+  }
 }
