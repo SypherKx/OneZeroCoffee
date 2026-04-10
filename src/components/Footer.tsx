@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <img src="/favicon.svg" alt="One Zero Coffee Logo" className="w-8 h-8 rounded-full" />
+              <img src="/logo.png" alt="One Zero Coffee Logo" className="w-8 h-8 rounded-full" />
               <span className="text-lg font-bold text-foreground mt-1">
                 One Zero <span className="text-accent">Coffee</span>
               </span>

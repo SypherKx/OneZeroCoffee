@@ -20,7 +20,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 glass-strong">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         <Link to="/" className="flex items-center gap-3 group">
-          <img src="/favicon.svg" alt="One Zero Coffee Logo" className="w-8 h-8 rounded-full transition-transform duration-500 group-hover:rotate-[-5deg]" />
+          <img src="/logo.png" alt="One Zero Coffee Logo" className="w-8 h-8 rounded-full transition-transform duration-500 group-hover:rotate-[-5deg]" />
           <span className="text-lg font-bold tracking-tight text-foreground mt-1">
             One Zero <span className="text-accent">Coffee</span>
           </span>
