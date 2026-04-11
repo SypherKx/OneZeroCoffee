@@ -5,6 +5,7 @@ import { ArrowRight, Coffee, Leaf, Award, Star, MapPin, Clock, Phone } from 'luc
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import ScrollCanvas from '@/components/ScrollCanvas';
 import heroCoffee from '@/assets/hero-coffee.jpg';
 import coffeeBeans from '@/assets/coffee-beans.jpg';
 import cafeInterior from '@/assets/cafe-interior.jpg';
@@ -644,7 +645,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <Navbar />
-      <HeroSection />
+      <ScrollCanvas />
       <MarqueeBanner />
       <PhilosophySection />
       <FeaturesSection />
