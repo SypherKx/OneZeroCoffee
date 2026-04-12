@@ -105,7 +105,7 @@ export default function ScrollCanvas() {
         trigger: container,
         start: 'top top',
         end: '+=300%',
-        scrub: 0.5,
+        scrub: 1, // Smoother scrub
         pin: true,
         anticipatePin: 1,
       },
