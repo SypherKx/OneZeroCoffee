@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const FRAME_COUNT = 240;
+const FRAME_COUNT = 192;
 
 function currentFrame(index: number): string {
-  return `/frames/ezgif-frame-${String(index + 1).padStart(3, '0')}.jpg`;
+  return `/frames_webp/frame_${String(index).padStart(5, '0')}.webp`;
 }
 
 export default function ScrollCanvas() {
@@ -200,7 +200,7 @@ export default function ScrollCanvas() {
                   border: '1px solid rgba(255,255,255,0.08)',
                 }}
               >
-                <img src="/logo.png" alt="One Zero Coffee" className="w-7 h-7 rounded-full" />
+                <img src="/logo.png" alt="One Zero, Coffee" className="w-7 h-7 rounded-full" />
                 <span className="text-[11px] font-semibold tracking-[0.18em] uppercase" style={{ color: '#D4956C' }}>
                   Est. 2020 · Artisan Roasters
                 </span>

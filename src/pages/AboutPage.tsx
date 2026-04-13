@@ -32,16 +32,16 @@ export default function AboutPage() {
            animate={{ opacity: 1, y: 0 }}
            className="flex flex-col items-center mb-16"
          >
-           <img src="/logo.png" alt="One Zero Coffee Logo" className="w-20 h-20 rounded-full mb-6 shadow-xl" />
+           <img src="/logo.png" alt="One Zero, Coffee Logo" className="w-20 h-20 rounded-full mb-6 shadow-xl" />
            <p className="text-accent text-sm font-medium tracking-widest uppercase mb-3 text-center">Our Story</p>
-           <h1 className="text-4xl md:text-5xl font-bold text-foreground text-center">About One Zero Coffee</h1>
+           <h1 className="text-4xl md:text-5xl font-bold text-foreground text-center">About One Zero, Coffee</h1>
          </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
           <FadeIn>
             <img
               src={cafeInterior}
-              alt="One Zero Coffee interior"
+              alt="One Zero, Coffee interior"
               loading="lazy"
               width={600}
               height={400}
@@ -51,7 +51,7 @@ export default function AboutPage() {
           <FadeIn delay={0.2}>
             <h2 className="text-2xl font-bold text-foreground mb-4">Where Every Cup Tells a Story</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              One Zero Coffee was born from a simple belief: great coffee should be an experience, not just a drink. Founded in 2020, we set out to create a space where quality meets comfort.
+              One Zero, Coffee was born from a simple belief: great coffee should be an experience, not just a drink. Founded in 2020, we set out to create a space where quality meets comfort.
             </p>
             <p className="text-muted-foreground leading-relaxed">
               We source our beans directly from small farms across Colombia, Ethiopia, and Guatemala, ensuring every batch meets our exacting standards. Our roasters carefully craft each profile to bring out the unique character of every origin.
@@ -86,7 +86,7 @@ export default function AboutPage() {
             <p className="text-2xl md:text-3xl font-light text-foreground italic leading-relaxed">
               "Coffee is not just what we serve — it's who we are."
             </p>
-            <p className="text-accent mt-4 font-medium">— The One Zero Coffee Team</p>
+            <p className="text-accent mt-4 font-medium">— The One Zero, Coffee Team</p>
           </div>
         </FadeIn>
       </div>

@@ -1,4 +1,4 @@
-# One Zero Coffee ☕
+# One Zero, Coffee ☕
 
 An artisan coffee experience built with React, Vite, and Framer Motion. Featuring a premium frame-by-frame scroll animation system.
 

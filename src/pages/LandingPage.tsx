@@ -84,7 +84,7 @@ function HeroSection() {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="mb-6"
             >
-              <img src="/logo.png" alt="One Zero Coffee Logo" className="w-16 h-16 sm:w-20 sm:h-20 rounded-full shadow-2xl shadow-accent/20" />
+              <img src="/logo.png" alt="One Zero, Coffee Logo" className="w-16 h-16 sm:w-20 sm:h-20 rounded-full shadow-2xl shadow-accent/20" />
             </motion.div>
 
             <motion.div
@@ -246,7 +246,7 @@ function PhilosophySection() {
           {/* Left: Large statement */}
           <div className="lg:col-span-5">
             <FadeIn>
-              <img src="/logo.png" alt="One Zero Coffee Logo" className="w-12 h-12 rounded-full mb-6 opacity-80" />
+              <img src="/logo.png" alt="One Zero, Coffee Logo" className="w-12 h-12 rounded-full mb-6 opacity-80" />
               <p className="text-accent text-xs font-medium tracking-[0.25em] uppercase mb-6">Our Philosophy</p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold leading-tight mb-6">
                 Coffee is an art.<br />
@@ -370,8 +370,8 @@ function FeaturesSection() {
       <BeanTrail />
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <FadeIn className="max-w-xl mb-20">
-          <img src="/logo.png" alt="One Zero Coffee Logo" className="w-12 h-12 rounded-full mb-6 opacity-80" />
-          <p className="text-accent text-xs font-medium tracking-[0.25em] uppercase mb-4">Why One Zero Coffee</p>
+          <img src="/logo.png" alt="One Zero, Coffee Logo" className="w-12 h-12 rounded-full mb-6 opacity-80" />
+          <p className="text-accent text-xs font-medium tracking-[0.25em] uppercase mb-4">Why One Zero, Coffee</p>
           <h2 className="text-3xl sm:text-4xl font-display font-bold">
             What makes us <span className="italic text-gradient-warm">different</span>
           </h2>
@@ -481,7 +481,7 @@ function ExperienceSection() {
       <motion.div style={{ y }} className="absolute inset-0">
         <img
           src={cafeInterior}
-          alt="One Zero Coffee interior"
+          alt="One Zero, Coffee interior"
           loading="lazy"
           width={1200}
           height={800}
@@ -501,7 +501,7 @@ function ExperienceSection() {
               <span className="italic text-muted-foreground font-light">A feeling.</span>
             </h2>
             <p className="text-muted-foreground text-lg font-light leading-relaxed mb-10 max-w-lg">
-              Warm lights, the hum of quiet conversation, the rich aroma filling the air — One Zero Coffee is designed to be your third place. Come in, slow down, be present.
+              Warm lights, the hum of quiet conversation, the rich aroma filling the air — One Zero, Coffee is designed to be your third place. Come in, slow down, be present.
             </p>
             <Button variant="hero" size="lg" className="rounded-full px-8 py-6" asChild>
               <Link to="/about">Discover Our Story</Link>
@@ -518,7 +518,7 @@ function TestimonialsSection() {
   const testimonials = [
     { text: "The best latte I've ever had. The atmosphere is unmatched — you can feel the care in every detail.", name: 'Ananya R.', role: 'Regular since 2021' },
     { text: "I drive 30 minutes just for their cold brew. Worth every kilometer.", name: 'Karthik M.', role: 'Cold Brew Enthusiast' },
-    { text: "One Zero Coffee turned me from a tea person into a coffee lover. That's the highest praise I can give.", name: 'Divya S.', role: 'Converted Coffee Lover' },
+    { text: "One Zero, Coffee turned me from a tea person into a coffee lover. That's the highest praise I can give.", name: 'Divya S.', role: 'Converted Coffee Lover' },
   ];
 
   return (
@@ -573,9 +573,9 @@ function LocationSection() {
 
               <div className="space-y-5">
                 {[
-                  { icon: MapPin, label: '123 Coffee Lane, Brew District, BC 10001' },
+                  { icon: MapPin, label: '3/12, Patrakar Puram, Vinay Khand 3, Gomti Nagar, Lucknow, Uttar Pradesh 226010' },
                   { icon: Clock, label: 'Mon – Fri: 7 AM – 9 PM · Weekends: 8 AM – 10 PM' },
-                  { icon: Phone, label: '+1 (555) 123-4567' },
+                  { icon: Phone, label: '080762 21806' },
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-4 group">
                     <div className="w-10 h-10 rounded-xl bg-accent/5 flex items-center justify-center shrink-0 group-hover:bg-accent/10 transition-colors">
@@ -593,7 +593,7 @@ function LocationSection() {
               <div className="relative">
                 <img
                   src={cafeInterior}
-                  alt="One Zero Coffee café"
+                  alt="One Zero, Coffee café"
                   loading="lazy"
                   width={700}
                   height={450}
@@ -621,7 +621,7 @@ function CTASection() {
 
       <div className="relative z-10 container mx-auto px-4 text-center">
         <FadeIn>
-          <img src="/logo.png" alt="One Zero Coffee Logo" className="w-20 h-20 rounded-full mx-auto mb-8 shadow-2xl" />
+          <img src="/logo.png" alt="One Zero, Coffee Logo" className="w-20 h-20 rounded-full mx-auto mb-8 shadow-2xl" />
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6 text-foreground leading-tight">
             Your perfect cup<br />
             <span className="italic font-light">is waiting.</span>
