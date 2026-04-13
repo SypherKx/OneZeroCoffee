@@ -34,25 +34,20 @@ export default function ScrollCanvas() {
     const images: HTMLImageElement[] = [];
     let loadedCount = 0;
 
+    // Adaptive resolution based on device — cap at 2x to avoid memory pressure on high-DPI mobile screens
     const setCanvasSize = () => {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2); 
       const w = window.innerWidth;
       const h = window.innerHeight;
 
-      // Set the internal buffer to full DPR resolution
       canvas.width = w * dpr;
       canvas.height = h * dpr;
-
-      // Keep CSS size at viewport dimensions
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
-
-      // Scale context so all draw calls are in CSS-pixel space
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // Best quality interpolation
       ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
+      ctx.imageSmoothingQuality = 'medium'; // Medium is often faster for mobile while maintaining quality
     };
     setCanvasSize();
 
@@ -65,7 +60,6 @@ export default function ScrollCanvas() {
 
       ctx.clearRect(0, 0, w, h);
 
-      // Cover-fit the image using CSS-pixel dimensions
       const imgRatio = img.naturalWidth / img.naturalHeight;
       const canvasRatio = w / h;
 
@@ -85,18 +79,38 @@ export default function ScrollCanvas() {
       ctx.drawImage(img, drawX, drawY, drawW, drawH);
     };
 
-    for (let i = 0; i < FRAME_COUNT; i++) {
-      const img = new Image();
-      img.src = currentFrame(i);
-      img.onload = () => {
-        loadedCount++;
-        if (loadedCount === 1) {
-          // Render first frame immediately
-          renderFrame(0);
+    // Prioritized pre-loading and decoding
+    const loadImages = async () => {
+      // Create empty slots
+      for (let i = 0; i < FRAME_COUNT; i++) {
+        images[i] = new Image();
+      }
+
+      // Load first 10 frames with highest priority for immediate visual feedback
+      const priorityPromises = Array.from({ length: 10 }).map((_, i) => {
+        return new Promise<void>((resolve) => {
+          images[i].src = currentFrame(i);
+          images[i].onload = () => {
+            if (i === 0) renderFrame(0);
+            images[i].decode().then(() => resolve()).catch(() => resolve());
+          };
+        });
+      });
+
+      await Promise.all(priorityPromises);
+
+      // Load the rest in small batches to not choke the main thread
+      const batchSize = 20;
+      for (let i = 10; i < FRAME_COUNT; i += batchSize) {
+        for (let j = i; j < Math.min(i + batchSize, FRAME_COUNT); j++) {
+          images[j].src = currentFrame(j);
         }
-      };
-      images.push(img);
-    }
+        // Small delay to allow browser to handle other tasks (like scroll events)
+        await new Promise(r => setTimeout(r, 100));
+      }
+    };
+
+    loadImages();
     imagesRef.current = images;
 
     // GSAP ScrollTrigger animation

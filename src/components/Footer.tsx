@@ -8,8 +8,8 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <img src="/logo.png" alt="One Zero, Coffee Logo" className="w-8 h-8 rounded-full" />
-              <span className="text-lg font-bold text-foreground mt-1">
-                One Zero, <span className="text-accent">Coffee</span>
+              <span className="text-xl font-display font-semibold tracking-wide text-foreground">
+                One Zero, <span className="italic font-medium text-accent">Coffee</span>
               </span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
