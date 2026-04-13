@@ -1,5 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { MapPin, Clock, Phone } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import cafeInterior from '@/assets/cafe-interior.jpg';
@@ -82,13 +83,31 @@ export default function AboutPage() {
         </div>
 
         <FadeIn>
-          <div className="glass rounded-2xl p-8 md:p-12 text-center max-w-2xl mx-auto">
+          <div className="glass rounded-2xl p-8 md:p-12 text-center max-w-2xl mx-auto mb-16">
             <p className="text-2xl md:text-3xl font-light text-foreground italic leading-relaxed">
               "Coffee is not just what we serve — it's who we are."
             </p>
             <p className="text-accent mt-4 font-medium">— The One Zero, Coffee Team</p>
           </div>
         </FadeIn>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {[
+            { icon: MapPin, title: 'Our Location', detail: '3/12, Patrakar Puram, Gomti Nagar, Lucknow' },
+            { icon: Clock, title: 'Opening Hours', detail: 'Mon – Fri: 7 AM – 9 PM' },
+            { icon: Phone, title: 'Call Us', detail: '080762 21806' },
+          ].map((item, i) => (
+            <FadeIn key={i} delay={i * 0.1}>
+              <div className="flex flex-col items-center text-center p-6 glass rounded-2xl h-full">
+                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-4">
+                  <item.icon className="w-5 h-5 text-accent" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
+                <p className="text-sm text-muted-foreground">{item.detail}</p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
       </div>
 
       <Footer />

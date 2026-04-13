@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,6 +18,7 @@ export default function ScrollCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const initialCTARef = useRef<HTMLDivElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const frameIndexRef = useRef({ value: 0 });
 
@@ -122,7 +124,18 @@ export default function ScrollCanvas() {
       },
     });
 
-    // Overlay animations — fade in content elements as we scroll
+    // Initial CTA animation — fade out and move up as we scroll
+    const initialCTA = initialCTARef.current;
+    if (initialCTA) {
+      tl.to(initialCTA, {
+        opacity: 0,
+        y: -150,
+        duration: 0.8,
+        ease: 'power2.inOut',
+      }, 0);
+    }
+
+    // Overlay animations — fade in main content as we scroll further
     const overlay = overlayRef.current;
     if (overlay) {
       // Initial state — content starts hidden
@@ -161,7 +174,7 @@ export default function ScrollCanvas() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative w-full h-screen overflow-hidden">
+    <section ref={containerRef} className="relative w-full h-screen overflow-hidden bg-[#1B110A]">
       {/* Canvas for frame animation */}
       <canvas
         ref={canvasRef}
@@ -183,6 +196,33 @@ export default function ScrollCanvas() {
       <div className="absolute inset-0 pointer-events-none" style={{
         background: 'radial-gradient(ellipse at 20% 10%, rgba(212,107,37,0.12) 0%, transparent 60%)',
       }} />
+
+      {/* ─────────────────── INITIAL CTA ─────────────────── */}
+      <div 
+        ref={initialCTARef}
+        className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 pointer-events-none"
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col items-center"
+        >
+          <h2 className="text-[5rem] sm:text-8xl lg:text-9xl xl:text-[10rem] font-display font-bold leading-[0.85] mb-8 text-white">
+            <span className="italic font-medium text-gradient-warm block mb-4">Scroll</span>
+            <span className="text-white/30 text-[0.22em] tracking-[0.5em] uppercase font-light block mb-4 ml-2">To Brew Your</span>
+            <span className="block font-display italic text-accent/80 text-4xl sm:text-5xl lg:text-6xl tracking-tight">Perfect Coffee</span>
+          </h2>
+          
+          <div className="mt-8 flex flex-col items-center gap-6">
+            <div className="w-[1px] h-20 bg-gradient-to-b from-accent/60 via-accent/20 to-transparent" />
+            <div className="relative">
+              <div className="w-1.5 h-1.5 rounded-full bg-accent animate-ping absolute inset-0" />
+              <div className="w-1.5 h-1.5 rounded-full bg-accent relative z-10" />
+            </div>
+          </div>
+        </motion.div>
+      </div>
 
       {/* Content overlay */}
       <div
@@ -286,14 +326,15 @@ export default function ScrollCanvas() {
       </div>
 
       {/* Scroll indicator — pulsing at bottom center */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-bounce">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
         <p className="text-[10px] uppercase tracking-[0.3em] font-medium" style={{ color: 'rgba(255,255,255,0.3)' }}>
-          Scroll
+          Scroll down
         </p>
         <div className="w-5 h-8 rounded-full border border-white/20 flex justify-center pt-1.5">
-          <div className="w-1 h-2 rounded-full bg-white/40 animate-pulse" />
+          <div className="w-1 h-2 rounded-full bg-white/40 animate-bounce" />
         </div>
       </div>
     </section>
+
   );
 }

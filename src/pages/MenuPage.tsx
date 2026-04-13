@@ -74,15 +74,20 @@ export default function MenuPage() {
         </motion.div>
 
         <div className="flex flex-col items-center gap-6 mb-10 w-full max-w-4xl mx-auto">
-          <div className="relative w-full max-w-[220px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+          <div className="relative w-full max-w-[340px] group">
             <input
               type="text"
-              placeholder="Search menu..."
+              placeholder="Search dishes, coffee..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full glass-strong border border-border/50 rounded-full pl-9 pr-4 py-1.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all placeholder:text-muted-foreground/70 shadow-sm"
+              className="w-full glass-strong border border-white/10 rounded-full pl-7 pr-14 py-3.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all placeholder:text-muted-foreground/40 shadow-xl"
             />
+            <button 
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-gradient-to-br from-[#D78B5D] to-[#A4532B] text-white flex items-center justify-center hover:shadow-[0_0_15px_rgba(212,107,37,0.4)] active:scale-90 transition-all duration-300"
+              aria-label="Search"
+            >
+              <Search className="w-4 h-4" />
+            </button>
           </div>
 
           <div className="flex justify-center gap-2 flex-wrap">

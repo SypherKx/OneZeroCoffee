@@ -1,4 +1,4 @@
-import { MapPin, Clock } from 'lucide-react';
+import { MapPin, Clock, Phone } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -19,9 +19,13 @@ export default function Footer() {
 
           <div>
             <h3 className="font-semibold text-foreground mb-4 text-sm uppercase tracking-wider">Visit Us</h3>
-            <div className="flex items-start gap-2 text-sm text-muted-foreground mb-2">
+            <div className="flex items-start gap-2 text-sm text-muted-foreground mb-3">
               <MapPin className="w-4 h-4 mt-0.5 text-accent shrink-0" />
               <span>3/12, Patrakar Puram, Vinay Khand 3, Gomti Nagar, Lucknow, Uttar Pradesh 226010</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Phone className="w-4 h-4 text-accent shrink-0" />
+              <span>080762 21806</span>
             </div>
           </div>
 
