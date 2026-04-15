@@ -86,27 +86,33 @@ export default function ScrollCanvas() {
         images[i] = new Image();
       }
 
-      // Load first 10 frames with highest priority for immediate visual feedback
-      const priorityPromises = Array.from({ length: 10 }).map((_, i) => {
+      // Load first 24 frames with highest priority to match Preloader
+      // This ensures that when the loader disappears, the start of the animation is buttery smooth
+      const CRITICAL_FRAMES = 24;
+      const priorityPromises = Array.from({ length: CRITICAL_FRAMES }).map((_, i) => {
         return new Promise<void>((resolve) => {
           images[i].src = currentFrame(i);
           images[i].onload = () => {
             if (i === 0) renderFrame(0);
             images[i].decode().then(() => resolve()).catch(() => resolve());
           };
+          images[i].onerror = () => resolve();
         });
       });
 
       await Promise.all(priorityPromises);
 
-      // Load the rest in small batches to not choke the main thread
-      const batchSize = 20;
-      for (let i = 10; i < FRAME_COUNT; i += batchSize) {
+      // Load the rest in optimized batches
+      const batchSize = 30;
+      for (let i = CRITICAL_FRAMES; i < FRAME_COUNT; i += batchSize) {
+        const batchPromises = [];
         for (let j = i; j < Math.min(i + batchSize, FRAME_COUNT); j++) {
           images[j].src = currentFrame(j);
+          // We don't strictly await EVERY batch to keep the UI fluid, 
+          // but we give them a chance to start.
         }
-        // Small delay to allow browser to handle other tasks (like scroll events)
-        await new Promise(r => setTimeout(r, 100));
+        // Small delay to allow browser to handle rendering/scrolling
+        await new Promise(r => setTimeout(r, 60));
       }
     };
 

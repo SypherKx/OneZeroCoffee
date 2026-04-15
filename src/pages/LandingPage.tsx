@@ -1,5 +1,6 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { useRef, useState } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from 'framer-motion';
+import Preloader from '@/components/Preloader';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Coffee, Leaf, Award, Star, MapPin, Clock, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -642,19 +643,32 @@ function CTASection() {
 
 /* ─────────────── PAGE ─────────────── */
 export default function LandingPage() {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
-      <Navbar />
-      <ScrollCanvas />
-      <MarqueeBanner />
-      <PhilosophySection />
-      <FeaturesSection />
-      <FeaturedMenuSection />
-      <ExperienceSection />
-      <TestimonialsSection />
-      <LocationSection />
-      <CTASection />
-      <Footer />
-    </div>
+    <>
+      <Preloader onComplete={() => setIsLoading(false)} />
+      
+      {!isLoading && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="min-h-screen bg-background overflow-x-hidden"
+        >
+          <Navbar />
+          <ScrollCanvas />
+          <MarqueeBanner />
+          <PhilosophySection />
+          <FeaturesSection />
+          <FeaturedMenuSection />
+          <ExperienceSection />
+          <TestimonialsSection />
+          <LocationSection />
+          <CTASection />
+          <Footer />
+        </motion.div>
+      )}
+    </>
   );
 }
