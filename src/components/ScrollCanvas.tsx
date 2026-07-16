@@ -4,19 +4,21 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const FRAME_COUNT = 240;
+const FRAME_COUNT = 192;
 
 function currentFrame(index: number): string {
-  return `/frames/ezgif-frame-${String(index + 1).padStart(3, '0')}.jpg`;
+  return `/frames_webp/frame_${String(index).padStart(5, '0')}.webp`;
 }
 
 export default function ScrollCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const initialCTARef = useRef<HTMLDivElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const frameIndexRef = useRef({ value: 0 });
 
@@ -32,25 +34,20 @@ export default function ScrollCanvas() {
     const images: HTMLImageElement[] = [];
     let loadedCount = 0;
 
+    // Adaptive resolution based on device — cap at 2x to avoid memory pressure on high-DPI mobile screens
     const setCanvasSize = () => {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2); 
       const w = window.innerWidth;
       const h = window.innerHeight;
 
-      // Set the internal buffer to full DPR resolution
       canvas.width = w * dpr;
       canvas.height = h * dpr;
-
-      // Keep CSS size at viewport dimensions
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
-
-      // Scale context so all draw calls are in CSS-pixel space
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // Best quality interpolation
       ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
+      ctx.imageSmoothingQuality = 'medium'; // Medium is often faster for mobile while maintaining quality
     };
     setCanvasSize();
 
@@ -63,7 +60,6 @@ export default function ScrollCanvas() {
 
       ctx.clearRect(0, 0, w, h);
 
-      // Cover-fit the image using CSS-pixel dimensions
       const imgRatio = img.naturalWidth / img.naturalHeight;
       const canvasRatio = w / h;
 
@@ -83,18 +79,44 @@ export default function ScrollCanvas() {
       ctx.drawImage(img, drawX, drawY, drawW, drawH);
     };
 
-    for (let i = 0; i < FRAME_COUNT; i++) {
-      const img = new Image();
-      img.src = currentFrame(i);
-      img.onload = () => {
-        loadedCount++;
-        if (loadedCount === 1) {
-          // Render first frame immediately
-          renderFrame(0);
+    // Prioritized pre-loading and decoding
+    const loadImages = async () => {
+      // Create empty slots
+      for (let i = 0; i < FRAME_COUNT; i++) {
+        images[i] = new Image();
+      }
+
+      // Load first 24 frames with highest priority to match Preloader
+      // This ensures that when the loader disappears, the start of the animation is buttery smooth
+      const CRITICAL_FRAMES = 24;
+      const priorityPromises = Array.from({ length: CRITICAL_FRAMES }).map((_, i) => {
+        return new Promise<void>((resolve) => {
+          images[i].src = currentFrame(i);
+          images[i].onload = () => {
+            if (i === 0) renderFrame(0);
+            images[i].decode().then(() => resolve()).catch(() => resolve());
+          };
+          images[i].onerror = () => resolve();
+        });
+      });
+
+      await Promise.all(priorityPromises);
+
+      // Load the rest in optimized batches
+      const batchSize = 30;
+      for (let i = CRITICAL_FRAMES; i < FRAME_COUNT; i += batchSize) {
+        const batchPromises = [];
+        for (let j = i; j < Math.min(i + batchSize, FRAME_COUNT); j++) {
+          images[j].src = currentFrame(j);
+          // We don't strictly await EVERY batch to keep the UI fluid, 
+          // but we give them a chance to start.
         }
-      };
-      images.push(img);
-    }
+        // Small delay to allow browser to handle rendering/scrolling
+        await new Promise(r => setTimeout(r, 60));
+      }
+    };
+
+    loadImages();
     imagesRef.current = images;
 
     // GSAP ScrollTrigger animation
@@ -105,7 +127,7 @@ export default function ScrollCanvas() {
         trigger: container,
         start: 'top top',
         end: '+=300%',
-        scrub: 0.5,
+        scrub: 1, // Smoother scrub
         pin: true,
         anticipatePin: 1,
       },
@@ -122,7 +144,18 @@ export default function ScrollCanvas() {
       },
     });
 
-    // Overlay animations — fade in content elements as we scroll
+    // Initial CTA animation — fade out and move up as we scroll
+    const initialCTA = initialCTARef.current;
+    if (initialCTA) {
+      tl.to(initialCTA, {
+        opacity: 0,
+        y: -150,
+        duration: 0.8,
+        ease: 'power2.inOut',
+      }, 0);
+    }
+
+    // Overlay animations — fade in main content as we scroll further
     const overlay = overlayRef.current;
     if (overlay) {
       // Initial state — content starts hidden
@@ -161,7 +194,7 @@ export default function ScrollCanvas() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative w-full h-screen overflow-hidden">
+    <section ref={containerRef} className="relative w-full h-screen overflow-hidden bg-[#1B110A]">
       {/* Canvas for frame animation */}
       <canvas
         ref={canvasRef}
@@ -184,6 +217,33 @@ export default function ScrollCanvas() {
         background: 'radial-gradient(ellipse at 20% 10%, rgba(212,107,37,0.12) 0%, transparent 60%)',
       }} />
 
+      {/* ─────────────────── INITIAL CTA ─────────────────── */}
+      <div 
+        ref={initialCTARef}
+        className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 pointer-events-none"
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col items-center"
+        >
+          <h2 className="text-[5rem] sm:text-8xl lg:text-9xl xl:text-[10rem] font-display font-bold leading-[0.85] mb-8 text-white">
+            <span className="italic font-medium text-gradient-warm block mb-4">Scroll</span>
+            <span className="text-white/30 text-[0.22em] tracking-[0.5em] uppercase font-light block mb-4 ml-2">To Brew Your</span>
+            <span className="block font-display italic text-accent/80 text-4xl sm:text-5xl lg:text-6xl tracking-tight">Perfect Coffee</span>
+          </h2>
+          
+          <div className="mt-8 flex flex-col items-center gap-6">
+            <div className="w-[1px] h-20 bg-gradient-to-b from-accent/60 via-accent/20 to-transparent" />
+            <div className="relative">
+              <div className="w-1.5 h-1.5 rounded-full bg-accent animate-ping absolute inset-0" />
+              <div className="w-1.5 h-1.5 rounded-full bg-accent relative z-10" />
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
       {/* Content overlay */}
       <div
         ref={overlayRef}
@@ -200,7 +260,7 @@ export default function ScrollCanvas() {
                   border: '1px solid rgba(255,255,255,0.08)',
                 }}
               >
-                <img src="/logo.png" alt="One Zero Coffee" className="w-7 h-7 rounded-full" />
+                <img src="/logo.png" alt="One Zero, Coffee" className="w-7 h-7 rounded-full" />
                 <span className="text-[11px] font-semibold tracking-[0.18em] uppercase" style={{ color: '#D4956C' }}>
                   Est. 2020 · Artisan Roasters
                 </span>
@@ -286,14 +346,15 @@ export default function ScrollCanvas() {
       </div>
 
       {/* Scroll indicator — pulsing at bottom center */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-bounce">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
         <p className="text-[10px] uppercase tracking-[0.3em] font-medium" style={{ color: 'rgba(255,255,255,0.3)' }}>
-          Scroll
+          Scroll down
         </p>
         <div className="w-5 h-8 rounded-full border border-white/20 flex justify-center pt-1.5">
-          <div className="w-1 h-2 rounded-full bg-white/40 animate-pulse" />
+          <div className="w-1 h-2 rounded-full bg-white/40 animate-bounce" />
         </div>
       </div>
     </section>
+
   );
 }
