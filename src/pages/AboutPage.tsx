@@ -1,5 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { MapPin, Clock, Phone } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import cafeInterior from '@/assets/cafe-interior.jpg';
@@ -32,16 +33,16 @@ export default function AboutPage() {
            animate={{ opacity: 1, y: 0 }}
            className="flex flex-col items-center mb-16"
          >
-           <img src="/logo.png" alt="One Zero Coffee Logo" className="w-20 h-20 rounded-full mb-6 shadow-xl" />
+           <img src="/logo.png" alt="One Zero, Coffee Logo" className="w-20 h-20 rounded-full mb-6 shadow-xl" />
            <p className="text-accent text-sm font-medium tracking-widest uppercase mb-3 text-center">Our Story</p>
-           <h1 className="text-4xl md:text-5xl font-bold text-foreground text-center">About One Zero Coffee</h1>
+           <h1 className="text-4xl md:text-5xl font-bold text-foreground text-center">About One Zero, Coffee</h1>
          </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
           <FadeIn>
             <img
               src={cafeInterior}
-              alt="One Zero Coffee interior"
+              alt="One Zero, Coffee interior"
               loading="lazy"
               width={600}
               height={400}
@@ -51,7 +52,7 @@ export default function AboutPage() {
           <FadeIn delay={0.2}>
             <h2 className="text-2xl font-bold text-foreground mb-4">Where Every Cup Tells a Story</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              One Zero Coffee was born from a simple belief: great coffee should be an experience, not just a drink. Founded in 2020, we set out to create a space where quality meets comfort.
+              One Zero, Coffee was born from a simple belief: great coffee should be an experience, not just a drink. Founded in 2020, we set out to create a space where quality meets comfort.
             </p>
             <p className="text-muted-foreground leading-relaxed">
               We source our beans directly from small farms across Colombia, Ethiopia, and Guatemala, ensuring every batch meets our exacting standards. Our roasters carefully craft each profile to bring out the unique character of every origin.
@@ -82,13 +83,31 @@ export default function AboutPage() {
         </div>
 
         <FadeIn>
-          <div className="glass rounded-2xl p-8 md:p-12 text-center max-w-2xl mx-auto">
+          <div className="glass rounded-2xl p-8 md:p-12 text-center max-w-2xl mx-auto mb-16">
             <p className="text-2xl md:text-3xl font-light text-foreground italic leading-relaxed">
               "Coffee is not just what we serve — it's who we are."
             </p>
-            <p className="text-accent mt-4 font-medium">— The One Zero Coffee Team</p>
+            <p className="text-accent mt-4 font-medium">— The One Zero, Coffee Team</p>
           </div>
         </FadeIn>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {[
+            { icon: MapPin, title: 'Our Location', detail: '3/12, Patrakar Puram, Gomti Nagar, Lucknow' },
+            { icon: Clock, title: 'Opening Hours', detail: 'Mon – Fri: 7 AM – 9 PM' },
+            { icon: Phone, title: 'Call Us', detail: '080762 21806' },
+          ].map((item, i) => (
+            <FadeIn key={i} delay={i * 0.1}>
+              <div className="flex flex-col items-center text-center p-6 glass rounded-2xl h-full">
+                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-4">
+                  <item.icon className="w-5 h-5 text-accent" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
+                <p className="text-sm text-muted-foreground">{item.detail}</p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
       </div>
 
       <Footer />

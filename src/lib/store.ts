@@ -4,7 +4,7 @@ export interface MenuItem {
   id: string;
   name: string;
   price: number;
-  category: 'coffee' | 'cold-drinks' | 'snacks';
+  category: 'coffee' | 'cold-drinks' | 'snacks' | 'frappe' | 'iced-beverages' | 'savoury-buds' | 'dessert' | 'addons';
   image: string;
   description: string;
   isAvailable: boolean;

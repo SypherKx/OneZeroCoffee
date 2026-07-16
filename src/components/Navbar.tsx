@@ -1,7 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
-import { useCartStore } from '@/lib/store';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navLinks = [
@@ -13,16 +12,14 @@ const navLinks = [
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
-  const cartItems = useCartStore((s) => s.items);
-  const cartCount = cartItems.reduce((sum, i) => sum + i.quantity, 0);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-strong">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         <Link to="/" className="flex items-center gap-3 group">
-          <img src="/logo.png" alt="One Zero Coffee Logo" className="w-8 h-8 rounded-full transition-transform duration-500 group-hover:rotate-[-5deg]" />
-          <span className="text-lg font-bold tracking-tight text-foreground mt-1">
-            One Zero <span className="text-accent">Coffee</span>
+          <img src="/logo.png" alt="One Zero, Coffee Logo" className="w-8 h-8 rounded-full transition-transform duration-500 group-hover:rotate-[-5deg]" />
+          <span className="text-xl font-display font-semibold tracking-wide text-foreground">
+            One Zero, <span className="italic font-medium text-accent">Coffee</span>
           </span>
         </Link>
 
@@ -40,18 +37,7 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Link to="/menu" className="relative">
-            <ShoppingCart className="w-5 h-5 text-foreground hover:text-accent transition-colors" />
-            {cartCount > 0 && (
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-accent text-accent-foreground text-[10px] flex items-center justify-center font-bold"
-              >
-                {cartCount}
-              </motion.span>
-            )}
-          </Link>
+
         </div>
 
         <button
@@ -83,14 +69,7 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                to="/menu"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2 text-sm font-medium text-foreground"
-              >
-                <ShoppingCart className="w-4 h-4" />
-                Cart {cartCount > 0 && `(${cartCount})`}
-              </Link>
+
             </div>
           </motion.div>
         )}
